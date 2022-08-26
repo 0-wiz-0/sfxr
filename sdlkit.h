@@ -97,6 +97,7 @@ static void ddkSetMode (int width, int height, int bpp, int refreshrate, int ful
 static bool load_file (char *fname)
 {
 	char *fn;
+	bool ret = false;
 
 	GtkWidget *dialog = gtk_file_chooser_dialog_new("Load a file!",
 	                                                NULL,
@@ -112,18 +113,20 @@ static bool load_file (char *fname)
 		g_free(fn);
 
 		fname[255] = 0;
+		ret = true;
 	}
 
 	gtk_widget_destroy(dialog);
 
 	while (gtk_events_pending ()) gtk_main_iteration ();
 
-	return true;
+	return ret;
 }
 
 static bool save_file (char *fname)
 {
 	char *fn;
+	bool ret = false;
 
 	GtkWidget *dialog = gtk_file_chooser_dialog_new("Save a file!",
 	                                                NULL,
@@ -141,13 +144,14 @@ static bool save_file (char *fname)
 		g_free(fn);
 
 		fname[255] = 0;
+		ret = true;
 	}
 
 	gtk_widget_destroy(dialog);
 
 	while (gtk_events_pending ()) gtk_main_iteration ();
 
-	return true;
+	return ret;
 }
 
 #define FileSelectorLoad(x,file,y) load_file(file)
