@@ -71,7 +71,7 @@ static void sdlupdate ()
 	mouse_middleclick = mouse_middle && !mouse_middle_p;
 }
 
-static bool ddkLock ()
+static void ddkLock ()
 {
 	SDL_LockSurface(sdlscreen);
 	ddkpitch = sdlscreen->pitch / (sdlscreen->format->BitsPerPixel == 32 ? 4 : 2);

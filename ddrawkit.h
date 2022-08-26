@@ -26,7 +26,7 @@ extern "C" long _ftol2( double dblSource ) { return _ftol( dblSource ); }
 void ddkInit();      // Will be called on startup
 bool ddkCalcFrame(); // Will be called every frame, return true to continue running or false to quit
 void ddkFree();      // Will be called on shutdown
-bool ddkLock();   // Call immediately before drawing (once per frame)
+void ddkLock();   // Call immediately before drawing (once per frame)
 void ddkUnlock(); // Call immediately after drawing (once per frame)
 void ddkDrawPixel(int x, int y, int red, int green, int blue); // Draw a pixel
 void ddkSetMode(int width, int height, int bpp, int refreshrate, int fullscreen, char *title);
@@ -217,7 +217,7 @@ void ddrawkit_RegisterWindowClass()
 	RegisterClassEx(&wcx);
 }
 
-bool ddkLock()
+void ddkLock()
 {
 	return true;
 }
