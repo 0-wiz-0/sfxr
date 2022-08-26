@@ -104,8 +104,8 @@ static bool load_file (char *fname)
 	GtkWidget *dialog = gtk_file_chooser_dialog_new("Load a file!",
 	                                                NULL,
 	                                                GTK_FILE_CHOOSER_ACTION_OPEN,
-	                                                GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	                                                GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	                                                "_Cancel", GTK_RESPONSE_CANCEL,
+	                                                "_Save", GTK_RESPONSE_ACCEPT,
 	                                                NULL
 	                                                );
 
@@ -131,8 +131,8 @@ static bool save_file (char *fname)
 	GtkWidget *dialog = gtk_file_chooser_dialog_new("Save a file!",
 	                                                NULL,
 	                                                GTK_FILE_CHOOSER_ACTION_SAVE,
-	                                                GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	                                                GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+	                                                "_Cancel", GTK_RESPONSE_CANCEL,
+	                                                "_Save", GTK_RESPONSE_ACCEPT,
 	                                                NULL
 	                                                );
 
