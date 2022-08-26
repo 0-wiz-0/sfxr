@@ -4,7 +4,7 @@ CXXFLAGS+=$(CFLAGS) `sdl-config --cflags` `pkg-config gtk+-${GTK} --cflags`
 LDFLAGS+=`sdl-config --libs` `pkg-config gtk+-${GTK} --libs`
 
 sfxr: main.cpp tools.h sdlkit.h
-	$(CXX) $< $(CXXFLAGS) $(LDFLAGS) -o $@
+	$(CXX) main.cpp $(CXXFLAGS) $(LDFLAGS) -o $@
 
 install: sfxr
 	mkdir -p $(DESTDIR)/usr/bin
