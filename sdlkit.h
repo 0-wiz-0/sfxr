@@ -92,7 +92,7 @@ static void ddkSetMode (int width, int height, int bpp, int refreshrate, int ful
 
 #include <gtk/gtk.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 #if GTK_CHECK_VERSION(3,0,0)
 
