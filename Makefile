@@ -1,8 +1,7 @@
-CFLAGS=-ggdb
-GTK=3.0
-CXXFLAGS+=$(CFLAGS) `sdl-config --cflags` `pkg-config gtk+-${GTK} --cflags`
-LDFLAGS+=`sdl-config --libs` `pkg-config gtk+-${GTK} --libs`
 PREFIX?=/usr
+CFLAGS=-ggdb
+CXXFLAGS+=$(CFLAGS) `sdl-config --cflags` `pkg-config gtk4 --cflags` -DPREFIX=\"$(PREFIX)\"
+LDFLAGS+=`sdl-config --libs` `pkg-config gtk4 --libs`
 
 sfxr: main.cpp tools.h sdlkit.h
 	$(CXX) main.cpp $(CXXFLAGS) $(LDFLAGS) -o $@

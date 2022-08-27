@@ -94,33 +94,46 @@ static void ddkSetMode (int width, int height, int bpp, int refreshrate, int ful
 #include <string.h>
 #include <stdlib.h>
 
+
+static void on_file_chooser_response (GtkDialog *dialog, int response, char *fname)
+{
+	if (response == GTK_RESPONSE_ACCEPT) {
+		GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
+
+		GFile *file = gtk_file_chooser_get_file (chooser);
+		char *path = g_file_get_path(file);
+		strncpy(fname, g_file_get_path(file), 255);
+		fname[255] = 0;
+		g_free(path);
+	}
+
+	gtk_window_destroy (GTK_WINDOW (dialog));
+}
+
 static bool load_file (char *fname)
 {
 	char *fn;
 	bool ret = false;
 
-	GtkWidget *dialog = gtk_file_chooser_dialog_new("Load a file!",
-	                                                NULL,
-	                                                GTK_FILE_CHOOSER_ACTION_OPEN,
-	                                                "_Cancel", GTK_RESPONSE_CANCEL,
-	                                                "_Save", GTK_RESPONSE_ACCEPT,
-	                                                NULL
-	                                                );
+	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Load File",
+							 NULL,
+							 GTK_FILE_CHOOSER_ACTION_OPEN,
+							 "_Cancel", GTK_RESPONSE_CANCEL,
+							 "_Open", GTK_RESPONSE_ACCEPT,
+							 NULL);
+	gtk_window_set_modal (GTK_WINDOW(dialog), true);
+	gtk_widget_show (dialog);
 
-	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
-		fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-		strncpy(fname, fn, 255);
-		g_free(fn);
+	fname[0] = 0;
+	g_signal_connect (dialog, "response",
+			  G_CALLBACK (on_file_chooser_response),
+			  fname);
 
-		fname[255] = 0;
-		ret = true;
+	while (g_list_model_get_n_items (gtk_window_get_toplevels ()) > 0) {
+		g_main_context_iteration (NULL, TRUE);
 	}
 
-	gtk_widget_destroy(dialog);
-
-	while (gtk_events_pending ()) gtk_main_iteration ();
-
-	return ret;
+	return fname[0] != 0;
 }
 
 static bool save_file (char *fname)
@@ -128,30 +141,27 @@ static bool save_file (char *fname)
 	char *fn;
 	bool ret = false;
 
-	GtkWidget *dialog = gtk_file_chooser_dialog_new("Save a file!",
+	GtkWidget *dialog = gtk_file_chooser_dialog_new("Save file",
 	                                                NULL,
 	                                                GTK_FILE_CHOOSER_ACTION_SAVE,
 	                                                "_Cancel", GTK_RESPONSE_CANCEL,
 	                                                "_Save", GTK_RESPONSE_ACCEPT,
-	                                                NULL
-	                                                );
+	                                                NULL);
 
-	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW(dialog), true);
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER(dialog), "New file");
+	gtk_widget_show (dialog);
 
-	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
-		fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-		strncpy(fname, fn, 255);
-		g_free(fn);
+	fname[0] = 0;
+	g_signal_connect (dialog, "response",
+			  G_CALLBACK (on_file_chooser_response),
+			  fname);
 
-		fname[255] = 0;
-		ret = true;
+	while (g_list_model_get_n_items (gtk_window_get_toplevels ()) > 0) {
+		g_main_context_iteration (NULL, TRUE);
 	}
 
-	gtk_widget_destroy(dialog);
-
-	while (gtk_events_pending ()) gtk_main_iteration ();
-
-	return ret;
+	return fname[0] != 0;
 }
 
 #define FileSelectorLoad(x,file,y) load_file(file)
@@ -205,7 +215,7 @@ static void loop (void)
 
 int main (int argc, char *argv[])
 {
-	gtk_init(&argc, &argv);
+	gtk_init();
 	sdlinit();
 	loop();
 	return 0;
