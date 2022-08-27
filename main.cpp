@@ -535,7 +535,7 @@ static int AudioCallback(void *inputBuffer, void *outputBuffer,
 	return 0;
 }
 #else
-//lets use SDL in stead
+//lets use SDL instead
 static void SDLAudioCallback(void *userdata, Uint8 *stream, int len)
 {
 	if (playing_sample && !mute_stream)
@@ -1126,21 +1126,21 @@ void ddkInit()
 
 	ddkSetMode(640,480, 32, 60, DDK_WINDOW, "sfxr"); // requests window size etc from ddrawkit
 
-	if (LoadTGA(font, "/usr/share/sfxr/font.tga")) {
+	if (LoadTGA(font, PREFIX "/share/sfxr/font.tga")) {
         	/* Try again in cwd */
 		if (LoadTGA(font, "font.tga")) {
 			fprintf(stderr,
-				"Error could not open /usr/share/sfxr/font.tga"
+				"Error could not open " PREFIX "/share/sfxr/font.tga"
 				" nor font.tga\n");
 			exit(1);
 		}
 	}
 
-	if (LoadTGA(ld48, "/usr/share/sfxr/ld48.tga")) {
+	if (LoadTGA(ld48, PREFIX "/share/sfxr/ld48.tga")) {
         	/* Try again in cwd */
 		if (LoadTGA(ld48, "ld48.tga")) {
 			fprintf(stderr,
-				"Error could not open /usr/share/sfxr/ld48.tga"
+				"Error could not open " PREFIX "/share/sfxr/ld48.tga"
 				" nor ld48.tga\n");
 			exit(1);
 		}
