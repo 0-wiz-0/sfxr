@@ -205,6 +205,8 @@ static void loop (void)
 				case SDLK_RETURN:
 					keys[DIK_RETURN] = true;
 					break;
+				case SDLK_q:
+					return;
 				default:
 					break;
 				}
