@@ -1,8 +1,0 @@
-To build and install under Linux do:
-make
-su -c "make install"
-
-You can set PREFIX to choose the install location.
-You can also run sfxr from the build dir after make (./sfxr).
-
-The Makefile understands the usual CFLAGS and DESTDIR parameters

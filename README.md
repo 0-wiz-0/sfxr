@@ -4,6 +4,19 @@ This is the SDL and GTK port of
 [sfxr](http://www.drpetter.se/project_sfxr.html), a sound effect
 generator written by [DrPetter](http://www.drpetter.se) in 2007.
 
+## Installation
+
+To build and install, do:
+>   make
+>   su -c "make install"
+
+You can set `PREFIX` to choose the install location.
+
+You can also run sfxr from the build directory after running `make`.
+
+The `Makefile` supports the usual `CFLAGS`, `PREFIX`, and `DESTDIR`
+variables.
+
 ## Basic usage
 
 Start the application, then hit some of the buttons on the left side
