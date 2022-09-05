@@ -1,14 +1,19 @@
-= sfxr-sdl-1.2.1
+= unreleased
+
+- Port to GTK 4.
+- Finish PREFIX support.
+
+= 1.2.1
 
 * Fixed bug, the loop function call in main was commented out by Johan Helsing (bobbaluba@gmail.com)
 * Fixed broken target clean in Makefile
 
-= sfxr-sdl-1.2
+= 1.2
 
 * Added support for gtk+-3.0 by Tim Oertel (toertel-sfxr@manax.org http://www.heroicproportions.org)
   (Sorry, you have to edit the makefile to switch back to gtk+-2.0)
 
-= sfxr-sdl-1.1
+= 1.1
 
 * Various small improvements and 1 bugfix by Hans de Goede
   <hdegoede@redhat.com>:
@@ -18,6 +23,6 @@
   * Add a make install target, note:  hardcoded to /usr but it does understand
     the DESTDIR make parameter
 
-= sfxr-sdl-1.0
+= 1.0
 
 * Initial SDL port of sfxr by mjau/GerryJJ
