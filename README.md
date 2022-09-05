@@ -1,10 +1,10 @@
-* sfxr
+# sfxr
 
 This is the SDL and GTK port of
 [sfxr](http://www.drpetter.se/project_sfxr.html), a sound effect
 generator written by [DrPetter](http://www.drpetter.se) in 2007.
 
-** Basic usage
+## Basic usage
 
 Start the application, then hit some of the buttons on the left side
 to generate random sounds matching the button descriptions.
@@ -21,7 +21,7 @@ The Randomize button generates something completely random.
 Mutate slightly alters the current parameters to automatically create
 a variation of the sound.
 
-** Advanced usage
+## Advanced usage
 
 Figure out what each slider does and use them to adjust particular
 aspects of the current sound...
@@ -47,7 +47,7 @@ Output" or similar.
 Using an external sound editor to capture and edit sound can also be
 used to string several sounds together for more complex results.
 
-** Parameter description
+## Parameter description
 
 - The top four buttons select base waveform
 - First four parameters control the volume envelope
