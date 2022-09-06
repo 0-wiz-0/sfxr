@@ -15,8 +15,10 @@ At build time, it also needs
 - [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
 
 To build and install, do:
->   make
->   su -c "make install"
+```sh
+make
+su -c "make install"
+```
 
 You can set `PREFIX` to choose the install location.
 
