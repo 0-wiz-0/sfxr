@@ -44,6 +44,8 @@ The Randomize button generates something completely random.
 Mutate slightly alters the current parameters to automatically create
 a variation of the sound.
 
+Close the window, or press `q` to quit.
+
 ## Advanced usage
 
 Figure out what each slider does and use them to adjust particular
