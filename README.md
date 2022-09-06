@@ -1,10 +1,18 @@
-# sfxr
+# sfxr-sdl
 
 This is the SDL and GTK port of
 [sfxr](http://www.drpetter.se/project_sfxr.html), a sound effect
 generator written by [DrPetter](http://www.drpetter.se) in 2007.
 
 ## Installation
+
+sfxr-sdl depends on (at runtime):
+- [SDL 1.x](http://libsdl.org/)
+- [GTK 4.x](https://www.gtk.org/)
+
+At build time, it also needs
+- [GNU make](https://www.gnu.org/software/make/) (or BSD make)
+- [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
 
 To build and install, do:
 >   make
