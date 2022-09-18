@@ -483,7 +483,7 @@ void SynthSample(int length, float* buffer, FILE* file)
 		if(file!=NULL)
 		{
 			// quantize depending on format
-			// accumulate/count to accomodate variable sample rate?
+			// accumulate/count to accommodate variable sample rate?
 			ssample*=4.0f; // arbitrary gain to get reasonable output volume...
 			if(ssample>1.0f) ssample=1.0f;
 			if(ssample<-1.0f) ssample=-1.0f;

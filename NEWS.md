@@ -19,7 +19,7 @@
 
 * Various small improvements and 1 bugfix by Hans de Goede
   <hdegoede@redhat.com>:
-  * Fix a small bug in the audio setup which could cause a quite noticable
+  * Fix a small bug in the audio setup which could cause a quite noticeable
     delay between pressing a button and hearing the sound
   * Add an icon and .desktop file
   * Add a make install target, note:  hardcoded to /usr but it does understand
