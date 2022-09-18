@@ -7,7 +7,7 @@ generator written by [DrPetter](http://www.drpetter.se) in 2007.
 ## Installation
 
 sfxr-sdl depends on (at runtime):
-- [SDL 1.x](http://libsdl.org/)
+- [SDL 2.x](http://libsdl.org/)
 - [GTK 4.x](https://www.gtk.org/)
 
 At build time, it also needs
