@@ -151,9 +151,6 @@ static void on_file_chooser_response (GtkDialog *dialog, int response, char *fna
 
 static bool load_file (char *fname)
 {
-	char *fn;
-	bool ret = false;
-
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Load File",
 							 NULL,
 							 GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -180,9 +177,6 @@ static bool load_file (char *fname)
 
 static bool save_file (char *fname, int sfxr)
 {
-	char *fn;
-	bool ret = false;
-
 	GtkWidget *dialog = gtk_file_chooser_dialog_new("Save file",
 	                                                NULL,
 	                                                GTK_FILE_CHOOSER_ACTION_SAVE,

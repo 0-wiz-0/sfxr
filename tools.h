@@ -2,7 +2,7 @@ int LoadTGA(Spriteset& tiles, const char *filename)
 {
 	FILE *file;
 	unsigned char byte, crap[16], id_length;
-	int n, width, height, channels, x, y;
+	int n, width, height, x, y;
 	file=fopen(filename, "rb");
 	if (!file)
 		return -1;
@@ -13,7 +13,6 @@ int LoadTGA(Spriteset& tiles, const char *filename)
 	fread(&width, 1, 2, file);	// width
 	fread(&height, 1, 2, file);	// height
 	fread(&byte, 1, 1, file);	// bits
-	channels=byte/8;
 	fread(&byte, 1, 1, file);	// image descriptor byte (per-bit info)
 	for(n=0;n<id_length;n++)
 		fread(&byte, 1, 1, file);	// image description

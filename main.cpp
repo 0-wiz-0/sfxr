@@ -562,7 +562,6 @@ bool ExportWAV(char* filename)
 	if(!foutput)
 		return false;
 	// write wav header
-	char string[32];
 	unsigned int dword=0;
 	unsigned short word=0;
 	fwrite("RIFF", 4, 1, foutput); // "RIFF"
