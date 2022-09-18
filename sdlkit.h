@@ -1,10 +1,13 @@
 #ifndef SDLKIT_H
 #define SDLKIT_H
 
-#include "SDL.h"
+#include <SDL.h>
 #define ERROR(x) error(__FILE__, __LINE__, #x)
 #define VERIFY(x) do { if (!(x)) ERROR(x); } while (0)
+
+#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static void error (const char *file, unsigned int line, const char *msg)
@@ -53,13 +56,21 @@ static int mouse_x, mouse_y, mouse_px, mouse_py;
 static bool mouse_left = false, mouse_right = false, mouse_middle = false;
 static bool mouse_leftclick = false, mouse_rightclick = false, mouse_middleclick = false;
 
-static SDL_Surface *sdlscreen = NULL;
+static SDL_Window *sdl_window = NULL;
+static SDL_Renderer *sdl_renderer = NULL;
+static SDL_Texture *sdl_texture = NULL;
+static Uint32 *pixels = NULL;
+static Uint32 pitch = 0;
 
 static void sdlupdate ()
 {
+	float logical_x, logical_y;
 	mouse_px = mouse_x;
 	mouse_py = mouse_y;
 	Uint8 buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
+	SDL_RenderWindowToLogical(sdl_renderer, mouse_x, mouse_y, &logical_x, &logical_y);
+	mouse_x = truncf(logical_x);
+	mouse_y = truncf(logical_y);
 	bool mouse_left_p = mouse_left;
 	bool mouse_right_p = mouse_right;
 	bool mouse_middle_p = mouse_middle;
@@ -73,21 +84,49 @@ static void sdlupdate ()
 
 static void ddkLock ()
 {
-	SDL_LockSurface(sdlscreen);
-	ddkpitch = sdlscreen->pitch / (sdlscreen->format->BitsPerPixel == 32 ? 4 : 2);
-	ddkscreen16 = (Uint16*)(sdlscreen->pixels);
-	ddkscreen32 = (Uint32*)(sdlscreen->pixels);
+	ddkscreen16 = (Uint16*)pixels;
+	ddkscreen32 = pixels;
 }
 
 static void ddkUnlock ()
 {
-	SDL_UnlockSurface(sdlscreen);
+	// nothing to do here
 }
 
 static void ddkSetMode (int width, int height, int bpp, int refreshrate, int fullscreen, const char *title)
 {
-	VERIFY(sdlscreen = SDL_SetVideoMode(width, height, bpp, fullscreen ? SDL_FULLSCREEN : 0));
-	SDL_WM_SetCaption(title, title);
+	SDL_Surface *icon;
+
+        //	SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &sdl_window, &sdl_renderer);
+	SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_RESIZABLE, &sdl_window, &sdl_renderer);
+	if (sdl_window == NULL || sdl_renderer == NULL) {
+		ERROR("error creating SDL window");
+	}
+	// TODO: check overflow
+	if ((pixels = (Uint32*)malloc(width * height * bpp)) == NULL) {
+		ERROR("error creating pixel buffer");
+	}
+	// for bpp, only 16 and 32 are support
+	if ((sdl_texture = SDL_CreateTexture(sdl_renderer, bpp == 32 ? SDL_PIXELFORMAT_ARGB8888 : SDL_PIXELFORMAT_ARGB4444,
+					     SDL_TEXTUREACCESS_STATIC, width, height)) == NULL) {
+		ERROR("error creating texture");
+	}
+	pitch = width * bpp / 8;
+	ddkpitch = width;
+	icon = SDL_LoadBMP("/usr/share/sfxr/sfxr.bmp");
+	if (!icon) {
+		icon = SDL_LoadBMP("sfxr.bmp");
+	}
+	if (icon) {
+		SDL_SetWindowIcon(sdl_window, icon);
+		SDL_FreeSurface(icon);
+	}
+	SDL_SetWindowTitle(sdl_window, title);
+	SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
+	SDL_RenderClear(sdl_renderer);
+	SDL_RenderPresent(sdl_renderer);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+	SDL_RenderSetLogicalSize(sdl_renderer, width, height);
 }
 
 #include <gtk/gtk.h>
@@ -178,13 +217,7 @@ static void sdlquit ()
 
 static void sdlinit ()
 {
-	SDL_Surface *icon;
 	VERIFY(!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO));
-	icon = SDL_LoadBMP("/usr/share/sfxr/sfxr.bmp");
-	if (!icon)
-		icon = SDL_LoadBMP("sfxr.bmp");
-	if (icon)
-		SDL_WM_SetIcon(icon, NULL);
 	atexit(sdlquit);
 	memset(keys, 0, sizeof(keys));
 	ddkInit();
@@ -224,7 +257,10 @@ static void loop (void)
 		if (!ddkCalcFrame())
 			return;
 
-		SDL_Flip(sdlscreen);
+		SDL_UpdateTexture(sdl_texture, NULL, pixels, pitch);
+		SDL_RenderClear(sdl_renderer);
+		SDL_RenderCopy(sdl_renderer, sdl_texture, NULL, NULL);
+		SDL_RenderPresent(sdl_renderer);
 	}
 }
 
