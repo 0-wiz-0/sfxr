@@ -34,7 +34,7 @@ int LoadTGA(Spriteset& tiles, const char *filename)
 	tiles.height=height;
 	tiles.width=height;
 	tiles.pitch=width;
-	
+
 	return 0;
 }
 
