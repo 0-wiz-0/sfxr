@@ -121,6 +121,9 @@ static bool load_file (char *fname)
 							 "_Cancel", GTK_RESPONSE_CANCEL,
 							 "_Open", GTK_RESPONSE_ACCEPT,
 							 NULL);
+	GtkFileFilter *filter = gtk_file_filter_new();
+	gtk_file_filter_add_pattern(filter, "*.sfxr");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 	gtk_window_set_modal (GTK_WINDOW(dialog), true);
 	gtk_widget_show (dialog);
 
@@ -136,7 +139,7 @@ static bool load_file (char *fname)
 	return fname[0] != 0;
 }
 
-static bool save_file (char *fname)
+static bool save_file (char *fname, int sfxr)
 {
 	char *fn;
 	bool ret = false;
@@ -149,7 +152,7 @@ static bool save_file (char *fname)
 	                                                NULL);
 
 	gtk_window_set_modal (GTK_WINDOW(dialog), true);
-	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER(dialog), "New file");
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER(dialog), sfxr ? "New file.sfxr" : "New file.wav");
 	gtk_widget_show (dialog);
 
 	fname[0] = 0;
@@ -165,7 +168,7 @@ static bool save_file (char *fname)
 }
 
 #define FileSelectorLoad(x,file,y) load_file(file)
-#define FileSelectorSave(x,file,y) save_file(file)
+#define FileSelectorSave(x,file,sfxr) save_file(file, sfxr)
 
 static void sdlquit ()
 {

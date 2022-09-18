@@ -2,6 +2,7 @@
 
 - Port to GTK 4.
 - Finish PREFIX support.
+- Use `.sfxr` extension by default.
 
 # 1.2.1
 
